@@ -107,37 +107,29 @@ beastDistributionsDict = {"exponential": "Exponential",
                           "inverse-gamma": "InverseGamma",
                           "laplace": "LaplaceDistribution",
                           "normal": "Normal",
-                          "1/x": "OneOnX"}
-                          # poisson and uniform have different section:
+                          "1/x": "OneOnX",
+                          "uniform": "Uniform"}
+                          # poisson has different section:
                           # grep 'distribution id="tip.AUSA2s61.prior"' * -A 7
 
 # Define parameters for different distributions
-parameterNamesDict = {"exponential": {"mean": args.parameter1,
-                                      "offset": args.parametero},
+parameterDict = {"exponential": {"mean": args.parameter1},
                       "log-normal": {"M": args.parameter1,
-                                     "S": args.parameter2,
-                                     "offset": args.parametero},
+                                     "S": args.parameter2},
                       "gamma": {"alpha": args.parameter1,
-                                "beta": args.parameter2,
-                                "offset": args.parametero},
+                                "beta": args.parameter2},
                       "beta": {"alpha": args.parameter1,
-                               "beta": args.parameter2,
-                               "offset": args.parametero},
+                               "beta": args.parameter2},
                       "inverse-gamma": {"alpha": args.parameter1,
-                                        "beta": args.parameter2,
-                                        "offset": args.parametero},
-                      "poisson": {"lambda": args.parameter1,
-                                  "offset": args.parametero},
+                                        "beta": args.parameter2},
+                      "poisson": {"lambda": args.parameter1},
                       "laplace": {"mu": args.parameter1,
-                                  "scale": args.parameter2,
-                                  "offset": args.parametero},
+                                  "scale": args.parameter2},
                       "1/x": {"offset": args.parametero},
                       "normal": {"mean": args.parameter1,
-                                 "sigma": args.parameter2,
-                                 "offset": args.parametero},
+                                 "sigma": args.parameter2},
                       "uniform": {"lower": args.parameter1,
-                                  "upper": args.parameter2,
-                                  "offset": args.parametero}}
+                                  "upper": args.parameter2}}
 
 # parameterNamesDict = {"exponential": ["mean", "offset"],
 #                       "log-normal": ["M", "S", "offset"],
@@ -205,7 +197,6 @@ if args.sequences:
                 print("Provided sequence file contained sequence id's which "
                       "are not present in the BEAUti .xml file. Please try again.")
                 sys.exit()
-
     except EnvironmentError:
         print("Failed to open input sequence file. "
               "Please check the path/filename and try again.")
@@ -217,8 +208,10 @@ print("The following options will be used:")
 print("- Prior distribution:", args.priorDistribution)
 # for i, param in enumerate(parameterNamesDict[args.priorDistribution]):
 #     print("\t -", param, "=", parameterList[i])
-for parameter in parameterNamesDict[args.priorDistribution]:
-    print("\t -", parameter, "=", parameterNamesDict[args.priorDistribution][parameter])
+for parameter in parameterDict[args.priorDistribution]:
+    print("\t -", parameter, "=", parameterDict[args.priorDistribution][parameter])
+print("\t - offset =", args.parametero)
+
 if args.priorDistribution == 'log-normal':
     if args.meanInRealSpace:
         print("\t - Mean is specified in real space.")
@@ -233,3 +226,7 @@ if args.sequences:
 else:
     print("Adding prior distributions, sample operators and logger entries for the tip dates of all",
           str(len(taxonList)), "dated sequences found in the BEAUti .xml file.")
+
+# Split input file line by line into a list to allow for easy output writing
+xmlContentsList = xmlContents.split('\n')
+
