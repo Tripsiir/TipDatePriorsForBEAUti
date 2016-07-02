@@ -31,6 +31,10 @@ POSSIBLE IMPROVEMENTS:
                  <trait id="dateTrait.t:renamed-SNP-L4" spec="beast.evolution.tree.TraitSet" traitname="date-backward"> this is what we need
     - add optional prior distribution option
 
+    - change beastDistributionsDict[args.priorDistribution] to stored variable name
+
+    - remove argparse writer, manually open file and change default name path?
+
 Help: python.BEAUti-xml-sample-from-tip-dates.py -h
 
 Usage: python.BEAUti-xml-sample-from-tip-dates.py.BEAUti.xml
@@ -230,3 +234,85 @@ else:
 # Split input file line by line into a list to allow for easy output writing
 xmlContentsList = xmlContents.split('\n')
 
+for i, line in enumerate(xmlContentsList):
+    # Check if current section needs to be expanded with an operator,
+    # logger or prior distribution for the sample tips.
+
+    # Print progress bar to screen
+    # time.sleep(0.001)
+    # sys.stdout.write('\rProgress: {0:.2%}'.format(i / len(xmlContentsList)))
+    # sys.stdout.flush()
+
+    newLine = ''
+
+    # Add prior distributions for each chosen tip date in the prior section of the BEAUti .xml file
+    if '<distribution id="prior" spec="util.CompoundDistribution">' in line:
+        for taxon in taxonList:
+
+            # Create parameter id's for specified distribution
+            ### NOTE: ignoring lower and upper in parameter id for S for log-normal!
+
+            parameterLines = ''
+            for parameter in parameterDict[args.priorDistribution]:
+                parameterLines += '\t\t\t\t\t<parameter id="RealParameter.' + parameter + '.' + taxon + \
+                                  '" estimate="false" name="' + parameter + '">' + \
+                                  str(parameterDict[args.priorDistribution][parameter]) + \
+                                  '</parameter>\n'
+
+            # Create distribution section to surround parameters
+            if args.priorDistribution != "poisson": 
+                distributionSection = '\t\t\t\t<' + beastDistributionsDict[args.priorDistribution] + \
+                                      ' id="' + beastDistributionsDict[args.priorDistribution] + \
+                                      '.' + taxon + '" name="distr" offset="' + str(args.parametero) + \
+                                      '">\n' + parameterLines + '\t\t\t\t</' + \
+                                      beastDistributionsDict[args.priorDistribution] + '>\n'
+            # Requires slightly different syntax for Poisson distribution!
+            else: 
+                distributionSection = '\t\t\t\t<distr id="Poisson.' + taxon + '" spec="beast.math.distributions.Poisson" ' \
+                                      'offset="1.0">\n' + parameterLines + '\t\t\t\t</distr>\n'
+
+            # Create remainder of the prior distribution id body and insert the distributionSection
+            newLine += '\t\t\t<distribution id="tip.' + taxon + '.prior"' \
+                       'spec="beast.math.distributions.MRCAPrior" ' \
+                       'tipsonly="true" tree="@' + treeID + '">\n' \
+                       '\t\t\t\t<taxonset id=" tip.' + taxon + '" spec="TaxonSet">\n' \
+                       '\t\t\t\t\t<taxon id="' + taxon + '" spec="Taxon"/>\n\t\t\t\t</taxonset>\n' + \
+                       distributionSection + '\t\t\t</distribution>\n'
+
+        # Append newly created sections to the current line, i.e. insert them at
+        # the top of the <distribution id="prior" spec="util.CompoundDistribution">' section
+        line = line + "\n" + newLine
+
+    # Add loggers for tip priors at the top of the logger section
+    elif '<logger id="tracelog"' in line:
+        for taxon in taxonList:
+            newLine += '<log idref="@tip.' + taxon + '.prior"/>\n'
+        line = line + "\n" + newLine
+
+    # Add sample operator for tip priors at the end of the file
+    elif '</run>' in line:
+        newLine = ''
+        for taxon in taxonList:
+            newLine += '<operator id="TipDatesRandomWalker.' + taxon + \
+                       '"\nwindowSize="1"\n' \
+                       'spec="TipDatesRandomWalker"\n' \
+                       'taxonset="@tip.' + taxon + \
+                       '"\ntree="@' + treeID + \
+                       '"\nweight="1.0"/>\n'
+        line = newLine + line
+
+    # write edited or original line to the new file
+    args.outFile.write(line+"\n")
+
+'''
+add option for estimating dist parameters!
+'''
+
+# Set progess bar to done.
+# sys.stdout.write('\r{0:.2%} done.'.format(1))
+
+# Print name and location of new.BEAUti .xml file.
+print('\nUpdated.BEAUti .xml file was saved to',
+      os.path.normcase(os.getcwd() + "/SampledTips-" + os.path.basename(path)))
+
+sys.exit()
