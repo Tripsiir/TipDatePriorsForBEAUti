@@ -254,30 +254,30 @@ for i, line in enumerate(xmlContentsList):
 
             parameterLines = ''
             for parameter in parameterDict[args.priorDistribution]:
-                parameterLines += '\t\t\t\t\t<parameter id="RealParameter.' + parameter + '.' + taxon + \
+                parameterLines += '\t\t    <parameter id="RealParameter.' + parameter + '.' + taxon + \
                                   '" estimate="false" name="' + parameter + '">' + \
                                   str(parameterDict[args.priorDistribution][parameter]) + \
                                   '</parameter>\n'
 
             # Create distribution section to surround parameters
             if args.priorDistribution != "poisson": 
-                distributionSection = '\t\t\t\t<' + beastDistributionsDict[args.priorDistribution] + \
+                distributionSection = '\t\t<' + beastDistributionsDict[args.priorDistribution] + \
                                       ' id="' + beastDistributionsDict[args.priorDistribution] + \
                                       '.' + taxon + '" name="distr" offset="' + str(args.parametero) + \
-                                      '">\n' + parameterLines + '\t\t\t\t</' + \
+                                      '">\n' + parameterLines + '\t\t</' + \
                                       beastDistributionsDict[args.priorDistribution] + '>\n'
             # Requires slightly different syntax for Poisson distribution!
             else: 
-                distributionSection = '\t\t\t\t<distr id="Poisson.' + taxon + '" spec="beast.math.distributions.Poisson" ' \
-                                      'offset="1.0">\n' + parameterLines + '\t\t\t\t</distr>\n'
+                distributionSection = '\t\t<distr id="Poisson.' + taxon + '" spec="beast.math.distributions.Poisson" ' \
+                                      'offset="1.0">\n' + parameterLines + '\t\t</distr>\n'
 
             # Create remainder of the prior distribution id body and insert the distributionSection
-            newLine += '\t\t\t<distribution id="tip.' + taxon + '.prior"' \
+            newLine += '\t    <distribution id="tip.' + taxon + '.prior"' \
                        'spec="beast.math.distributions.MRCAPrior" ' \
                        'tipsonly="true" tree="@' + treeID + '">\n' \
-                       '\t\t\t\t<taxonset id=" tip.' + taxon + '" spec="TaxonSet">\n' \
-                       '\t\t\t\t\t<taxon id="' + taxon + '" spec="Taxon"/>\n\t\t\t\t</taxonset>\n' + \
-                       distributionSection + '\t\t\t</distribution>\n'
+                       '\t\t<taxonset id=" tip.' + taxon + '" spec="TaxonSet">\n' \
+                       '\t\t    <taxon id="' + taxon + '" spec="Taxon"/>\n\t\t</taxonset>\n' + \
+                       distributionSection + '\t    </distribution>\n'
 
         # Append newly created sections to the current line, i.e. insert them at
         # the top of the <distribution id="prior" spec="util.CompoundDistribution">' section
@@ -286,7 +286,7 @@ for i, line in enumerate(xmlContentsList):
     # Add loggers for tip priors at the top of the logger section
     elif '<logger id="tracelog"' in line:
         for taxon in taxonList:
-            newLine += '<log idref="@tip.' + taxon + '.prior"/>\n'
+            newLine += '\t<log idref="@tip.' + taxon + '.prior"/>\n'
         line = line + "\n" + newLine
 
     # Add sample operator for tip priors at the end of the file
@@ -306,6 +306,10 @@ for i, line in enumerate(xmlContentsList):
 
 '''
 add option for estimating dist parameters!
+
+fix formatting with tabs
+
+add loggers  before </logger>? no because screenlog has same name!
 '''
 
 # Set progess bar to done.
