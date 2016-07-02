@@ -112,19 +112,45 @@ beastDistributionsDict = {"exponential": "Exponential",
                           # grep 'distribution id="tip.AUSA2s61.prior"' * -A 7
 
 # Define parameters for different distributions
-parameterNamesDict = {"exponential": ["mean", "offset"],
-                      "log-normal": ["M", "S", "offset"],
-                      "gamma": ["alpha", "beta", "offset"],
-                      "beta": ["alpha", "beta", "offset"],
-                      "inverse-gamma": ["alpha", "beta", "offset"],
-                      "poisson": ["lambda", "offset"],
-                      "laplace": ["mu", "scale", "offset"],
-                      "1/x": ["offset"],
-                      "normal": ["mean", "sigma", "offset"],
-                      "uniform": ["lower", "upper", "offset"]}
+parameterNamesDict = {"exponential": {"mean": args.parameter1,
+                                      "offset": args.parametero},
+                      "log-normal": {"M": args.parameter1,
+                                     "S": args.parameter2,
+                                     "offset": args.parametero},
+                      "gamma": {"alpha": args.parameter1,
+                                "beta": args.parameter2,
+                                "offset": args.parametero},
+                      "beta": {"alpha": args.parameter1,
+                               "beta": args.parameter2,
+                               "offset": args.parametero},
+                      "inverse-gamma": {"alpha": args.parameter1,
+                                        "beta": args.parameter2,
+                                        "offset": args.parametero},
+                      "poisson": {"lambda": args.parameter1,
+                                  "offset": args.parametero},
+                      "laplace": {"mu": args.parameter1,
+                                  "scale": args.parameter2,
+                                  "offset": args.parametero},
+                      "1/x": {"offset": args.parametero},
+                      "normal": {"mean": args.parameter1,
+                                 "sigma": args.parameter2,
+                                 "offset": args.parametero},
+                      "uniform": {"lower": args.parameter1,
+                                  "upper": args.parameter2,
+                                  "offset": args.parametero}}
 
+# parameterNamesDict = {"exponential": ["mean", "offset"],
+#                       "log-normal": ["M", "S", "offset"],
+#                       "gamma": ["alpha", "beta", "offset"],
+#                       "beta": ["alpha", "beta", "offset"],
+#                       "inverse-gamma": ["alpha", "beta", "offset"],
+#                       "poisson": ["lambda", "offset"],
+#                       "laplace": ["mu", "scale", "offset"],
+#                       "1/x": ["offset"],
+#                       "normal": ["mean", "sigma", "offset"],
+#                       "uniform": ["lower", "upper", "offset"]}
 # Store parameters in list
-parameterList = [args.parameter1, args.parameter2, args.parametero]
+# parameterList = [args.parameter1, args.parameter2, args.parametero]
 
 # Extract path from input argument
 path = os.path.abspath(args.inputFile)
@@ -189,8 +215,10 @@ print("\nPPoTD - Putting Priors on Tip Dates")
 print("Preparing to add required sections to the beati .xml file.\n")
 print("The following options will be used:")
 print("- Prior distribution:", args.priorDistribution)
-for i, param in enumerate(parameterNamesDict[args.priorDistribution]):
-    print("\t -", param, "=", parameterList[i])
+# for i, param in enumerate(parameterNamesDict[args.priorDistribution]):
+#     print("\t -", param, "=", parameterList[i])
+for parameter in parameterNamesDict[args.priorDistribution]:
+    print("\t -", parameter, "=", parameterNamesDict[args.priorDistribution][parameter])
 if args.priorDistribution == 'log-normal':
     if args.meanInRealSpace:
         print("\t - Mean is specified in real space.")
