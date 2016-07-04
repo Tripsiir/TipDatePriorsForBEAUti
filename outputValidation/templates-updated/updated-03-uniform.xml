@@ -319,9 +319,7 @@ USALongs56=56.0                <taxa id="TaxonSet.RSV2" spec="TaxonSet">
 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
 		    <taxon id="AUSA2s61" spec="Taxon"/>
 		</taxonset>
-		<distr id="Poisson.AUSA2s61" spec="beast.math.distributions.Poisson" offset="1.0">
-		    <parameter id="RealParameter.lambda.AUSA2s61" estimate="false" name="lambda">1.0</parameter>
-		</distr>
+		<Uniform id="Uniform.AUSA2s61" lower="1.0" name="distr" upper="2.0" offset="0.0"/>
 	    </distribution>
 
             <distribution id="CoalescentExponential.t:RSV2" spec="Coalescent">
@@ -451,6 +449,8 @@ USALongs56=56.0                <taxa id="TaxonSet.RSV2" spec="TaxonSet">
     </operator>
 
     <logger id="tracelog" fileName="RSV2.log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
+	<log idref="tip.AUSA2s61.prior"/>
+
         <log idref="posterior"/>
         <log idref="likelihood"/>
         <log idref="prior"/>

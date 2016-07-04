@@ -1,0 +1,571 @@
+
+
+
+
+
+03-uniform.xml
+
+
+317a318,324
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<Uniform id="Uniform.AUSA2s61" lower="1.0" name="distr" upper="2.0" offset="0.0"/>
+> 	    </distribution>
+> 
+366,368d372
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,380c379,381
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <Uniform id="Uniform.01" name="distr" upper="Infinity"/>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+450a452,453
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+469d471
+<         <log idref="tip.AUSA2s61.prior"/>
+482a485,490
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+485a494
+> 
+
+
+
+
+04-normal.xml
+
+
+317a318,327
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<Normal id="Normal.AUSA2s61" name="distr" offset="0.0">
+> 		    <parameter id="RealParameter.sigma.AUSA2s61" estimate="false" name="sigma">2.0</parameter>
+> 		    <parameter id="RealParameter.mean.AUSA2s61" estimate="false" name="mean">1.0</parameter>
+> 		</Normal>
+> 	    </distribution>
+> 
+366,368d375
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,383c382,384
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <Normal id="Normal.0" name="distr" offset="1.0">
+<                     <parameter id="RealParameter.015" estimate="false" name="mean">0.0</parameter>
+<                     <parameter id="RealParameter.016" estimate="false" name="sigma">1.0</parameter>
+<                 </Normal>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+397c398
+<                         <parameter id="RealParameter.017" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+---
+>                         <parameter id="RealParameter.015" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+453a455,456
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+472d474
+<         <log idref="tip.AUSA2s61.prior"/>
+485a488,493
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+488a497
+> 
+
+
+
+
+05-1x.xml
+
+
+317a318,324
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<OneOnX id="OneOnX.AUSA2s61" name="distr" offset="0.0"/>
+> 	    </distribution>
+> 
+366,368d372
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,380c379,381
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <OneOnX id="OneOnX.01" name="distr"/>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+450a452,453
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+469d471
+<         <log idref="tip.AUSA2s61.prior"/>
+482a485,490
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+485a494
+> 
+
+
+
+
+06-log-normal.xml
+
+
+317a318,327
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<LogNormal id="LogNormal.AUSA2s61" name="distr" offset="0.0">
+> 		    <parameter id="RealParameter.S.AUSA2s61" estimate="false" name="S">2.0</parameter>
+> 		    <parameter id="RealParameter.M.AUSA2s61" estimate="false" name="M">1.0</parameter>
+> 		</LogNormal>
+> 	    </distribution>
+> 
+366,368d375
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,383c382,384
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <LogNormal id="LogNormalDistributionModel.0" name="distr" offset="1.0">
+<                     <parameter id="RealParameter.015" estimate="false" name="M">1.0</parameter>
+<                     <parameter id="RealParameter.016" estimate="false" lower="0.0" name="S" upper="5.0">1.25</parameter>
+<                 </LogNormal>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+397c398
+<                         <parameter id="RealParameter.017" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+---
+>                         <parameter id="RealParameter.015" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+453a455,456
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+472d474
+<         <log idref="tip.AUSA2s61.prior"/>
+485a488,493
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+488a497
+> 
+
+
+
+
+07-log-normal-realspace.xml
+
+
+317a318,327
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<LogNormal id="LogNormal.AUSA2s61" name="distr" offset="0.0">
+> 		    <parameter id="RealParameter.S.AUSA2s61" estimate="false" name="S">2.0</parameter>
+> 		    <parameter id="RealParameter.M.AUSA2s61" estimate="false" name="M">1.0</parameter>
+> 		</LogNormal>
+> 	    </distribution>
+> 
+366,368d375
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,383c382,384
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <LogNormal id="LogNormalDistributionModel.0" meanInRealSpace="true" name="distr" offset="1.0">
+<                     <parameter id="RealParameter.015" estimate="false" name="M">1.0</parameter>
+<                     <parameter id="RealParameter.016" estimate="false" lower="0.0" name="S" upper="5.0">1.25</parameter>
+<                 </LogNormal>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+397c398
+<                         <parameter id="RealParameter.017" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+---
+>                         <parameter id="RealParameter.015" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+453a455,456
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+472d474
+<         <log idref="tip.AUSA2s61.prior"/>
+485a488,493
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+488a497
+> 
+
+
+
+
+08-exponential.xml
+
+
+317a318,326
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<Exponential id="Exponential.AUSA2s61" name="distr" offset="0.0">
+> 		    <parameter id="RealParameter.mean.AUSA2s61" estimate="false" name="mean">1.0</parameter>
+> 		</Exponential>
+> 	    </distribution>
+> 
+366,368d374
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,382c381,383
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <Exponential id="Exponential.01" name="distr" offset="1.0">
+<                     <parameter id="RealParameter.015" estimate="false" name="mean">1.0</parameter>
+<                 </Exponential>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+396c397
+<                         <parameter id="RealParameter.016" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+---
+>                         <parameter id="RealParameter.015" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+452a454,455
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+471d473
+<         <log idref="tip.AUSA2s61.prior"/>
+484a487,492
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+487a496
+> 
+
+
+
+
+09-gamma.xml
+
+
+317a318,327
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<Gamma id="Gamma.AUSA2s61" name="distr" offset="0.0">
+> 		    <parameter id="RealParameter.alpha.AUSA2s61" estimate="false" name="alpha">1.0</parameter>
+> 		    <parameter id="RealParameter.beta.AUSA2s61" estimate="false" name="beta">2.0</parameter>
+> 		</Gamma>
+> 	    </distribution>
+> 
+366,368d375
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,383c382,384
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <Gamma id="Gamma.06" name="distr" offset="1.0">
+<                     <parameter id="RealParameter.015" estimate="false" name="alpha">2.0</parameter>
+<                     <parameter id="RealParameter.016" estimate="false" name="beta">2.0</parameter>
+<                 </Gamma>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+397c398
+<                         <parameter id="RealParameter.017" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+---
+>                         <parameter id="RealParameter.015" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+453a455,456
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+472d474
+<         <log idref="tip.AUSA2s61.prior"/>
+485a488,493
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+488a497
+> 
+
+
+
+
+10-beta.xml
+
+
+317a318,327
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<Beta id="Beta.AUSA2s61" name="distr" offset="0.0">
+> 		    <parameter id="RealParameter.alpha.AUSA2s61" estimate="false" name="alpha">1.0</parameter>
+> 		    <parameter id="RealParameter.beta.AUSA2s61" estimate="false" name="beta">2.0</parameter>
+> 		</Beta>
+> 	    </distribution>
+> 
+366,368d375
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,383c382,384
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <Beta id="Beta.0" name="distr" offset="1.0">
+<                     <parameter id="RealParameter.015" estimate="false" name="alpha">2.0</parameter>
+<                     <parameter id="RealParameter.016" estimate="false" name="beta">2.0</parameter>
+<                 </Beta>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+397c398
+<                         <parameter id="RealParameter.017" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+---
+>                         <parameter id="RealParameter.015" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+453a455,456
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+472d474
+<         <log idref="tip.AUSA2s61.prior"/>
+485a488,493
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+488a497
+> 
+
+
+
+
+11-laplace.xml
+
+
+317a318,327
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<LaplaceDistribution id="LaplaceDistribution.AUSA2s61" name="distr" offset="0.0">
+> 		    <parameter id="RealParameter.mu.AUSA2s61" estimate="false" name="mu">1.0</parameter>
+> 		    <parameter id="RealParameter.scale.AUSA2s61" estimate="false" name="scale">2.0</parameter>
+> 		</LaplaceDistribution>
+> 	    </distribution>
+> 
+366,368d375
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,383c382,384
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <LaplaceDistribution id="LaplaceDistribution.01" name="distr" offset="1.0">
+<                     <parameter id="RealParameter.015" estimate="false" name="mu">0.0</parameter>
+<                     <parameter id="RealParameter.016" estimate="false" name="scale">1.0</parameter>
+<                 </LaplaceDistribution>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+397c398
+<                         <parameter id="RealParameter.017" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+---
+>                         <parameter id="RealParameter.015" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+453a455,456
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+472d474
+<         <log idref="tip.AUSA2s61.prior"/>
+485a488,493
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+488a497
+> 
+
+
+
+
+12-inverse-gamma.xml
+
+
+317a318,327
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<InverseGamma id="InverseGamma.AUSA2s61" name="distr" offset="0.0">
+> 		    <parameter id="RealParameter.alpha.AUSA2s61" estimate="false" name="alpha">1.0</parameter>
+> 		    <parameter id="RealParameter.beta.AUSA2s61" estimate="false" name="beta">2.0</parameter>
+> 		</InverseGamma>
+> 	    </distribution>
+> 
+366,368d375
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,383c382,384
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <InverseGamma id="InverseGamma.0" name="distr" offset="1.0">
+<                     <parameter id="RealParameter.015" estimate="false" name="alpha">2.0</parameter>
+<                     <parameter id="RealParameter.016" estimate="false" name="beta">2.0</parameter>
+<                 </InverseGamma>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+397c398
+<                         <parameter id="RealParameter.017" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+---
+>                         <parameter id="RealParameter.015" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+453a455,456
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+472d474
+<         <log idref="tip.AUSA2s61.prior"/>
+485a488,493
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+488a497
+> 
+
+
+
+
+13-poisson.xml
+
+
+317a318,326
+> 	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+> 		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
+> 		    <taxon id="AUSA2s61" spec="Taxon"/>
+> 		</taxonset>
+> 		<distr id="Poisson.AUSA2s61" spec="beast.math.distributions.Poisson" offset="1.0">
+> 		    <parameter id="RealParameter.lambda.AUSA2s61" estimate="false" name="lambda">1.0</parameter>
+> 		</distr>
+> 	    </distribution>
+> 
+366,368d374
+<             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+<                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+<             </prior>
+375,382c381,383
+<             <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+<                 <taxonset id="tip.AUSA2s61" spec="TaxonSet">
+<                     <taxon id="AUSA2s61" spec="Taxon"/>
+<                 </taxonset>
+<                 <distr id="Poisson.0" spec="beast.math.distributions.Poisson" offset="1.0">
+<                     <parameter id="RealParameter.015" name="lambda">0.693</parameter>
+<                 </distr>
+<             </distribution>
+---
+>             <prior id="MeanRatePrior.c:RSV2" name="distribution" x="@ucldMean.c:RSV2">
+>                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+>             </prior>
+396c397
+<                         <parameter id="RealParameter.016" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+---
+>                         <parameter id="RealParameter.015" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+452a454,455
+> 	<log idref="tip.AUSA2s61.prior"/>
+> 
+471d473
+<         <log idref="tip.AUSA2s61.prior"/>
+484a487,492
+> <operator id="TipDatesRandomWalker.AUSA2s61"
+> windowSize="1"
+> spec="TipDatesRandomWalker"
+> taxonset="@tip.AUSA2s61"
+> tree="@Tree.t:RSV2"
+> weight="1.0"/>
+487a496
+> 
