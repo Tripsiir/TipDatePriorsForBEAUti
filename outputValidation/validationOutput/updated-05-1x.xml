@@ -315,13 +315,11 @@ USALongs56=56.0                <taxa id="TaxonSet.RSV2" spec="TaxonSet">
 
     <distribution id="posterior" spec="util.CompoundDistribution">
         <distribution id="prior" spec="util.CompoundDistribution">
-	    <distribution id="tip.AUSA2s61.prior"spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
-		<taxonset id=" tip.AUSA2s61" spec="TaxonSet">
+	    <distribution id="tip.AUSA2s61.prior" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@Tree.t:RSV2">
+		<taxonset id="tip.AUSA2s61" spec="TaxonSet">
 		    <taxon id="AUSA2s61" spec="Taxon"/>
 		</taxonset>
-		<OneOnX id="OneOnX.AUSA2s61" name="distr" offset="0.0">
-		    <parameter id="RealParameter.offset.AUSA2s61" estimate="false" name="offset">0.0</parameter>
-		</OneOnX>
+		<OneOnX id="OneOnX.AUSA2s61" name="distr" offset="0.0"/>
 	    </distribution>
 
             <distribution id="CoalescentExponential.t:RSV2" spec="Coalescent">
@@ -451,8 +449,6 @@ USALongs56=56.0                <taxa id="TaxonSet.RSV2" spec="TaxonSet">
     </operator>
 
     <logger id="tracelog" fileName="RSV2.log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
-	<log idref="@tip.AUSA2s61.prior"/>
-
         <log idref="posterior"/>
         <log idref="likelihood"/>
         <log idref="prior"/>

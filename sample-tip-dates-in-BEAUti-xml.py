@@ -33,6 +33,8 @@ POSSIBLE IMPROVEMENTS:
     - remove argparse writer, manually open file and change default name path?
     - fix output names!
     - automatically retrieve correct direction of time from file?
+    - Clean up 1/x and uniform section so that parameter values are also gathered from
+      the parameter dictionary?
 '''
 
 from __future__ import print_function, division, with_statement
@@ -113,8 +115,9 @@ beastDistributionsDict = {"exponential": "Exponential",
                           "laplace": "LaplaceDistribution",
                           "normal": "Normal",
                           "1/x": "OneOnX",
-                          "uniform": "Uniform"}
-                          # poisson has different section:
+                          "uniform": "Uniform",
+                          "poisson": "Poisson"}
+                          # poisson, uniform and 1/x have deviating distribution sections:
                           # grep 'distribution id="tip.AUSA2s61.prior"' * -A 7
 
 # Define parameters for different distributions
@@ -243,6 +246,8 @@ else:
 # Split input file line by line into a list to allow for easy output writing
 xmlContentsList = xmlContents.split('\n')
 
+priorDistribution = beastDistributionsDict[args.priorDistribution]
+
 for i, line in enumerate(xmlContentsList):
     # Check if current section needs to be expanded with an operator,
     # logger or prior distribution for the sample tips.
@@ -269,16 +274,27 @@ for i, line in enumerate(xmlContentsList):
                                   '</parameter>\n'
 
             # Create distribution section to surround parameters
-            if args.priorDistribution != "poisson": 
-                distributionSection = '\t\t<' + beastDistributionsDict[args.priorDistribution] + \
-                                      ' id="' + beastDistributionsDict[args.priorDistribution] + \
+            if args.priorDistribution not in ["poisson", "uniform", "1/x"]: 
+                distributionSection = '\t\t<' + priorDistribution + \
+                                      ' id="' + priorDistribution + \
                                       '.' + taxon + '" name="distr" offset="' + str(args.parametero) + \
                                       '">\n' + parameterLines + '\t\t</' + \
-                                      beastDistributionsDict[args.priorDistribution] + '>\n'
-            # Requires slightly different syntax for Poisson distribution!
+                                      priorDistribution + '>\n'
+
+            # Requires slightly different syntax for Poisson, uniform and 1/x distributions
             else: 
-                distributionSection = '\t\t<distr id="Poisson.' + taxon + '" spec="beast.math.distributions.Poisson" ' \
+                if args.priorDistribution == "poisson":
+                    distributionSection = '\t\t<distr id="Poisson.' + taxon + '" spec="beast.math.distributions.Poisson" ' \
                                       'offset="1.0">\n' + parameterLines + '\t\t</distr>\n'
+                elif args.priorDistribution == "uniform":
+                    print('UNIFORM')
+                    distributionSection = '\t\t<Uniform id="Uniform.' + taxon + '" lower="' + \
+                                          str(args.parameter1) + '" name="distr" upper="' + \
+                                          str(args.parameter2) + '" offset="' + \
+                                          str(args.parametero) + '"/>\n'
+                elif args.priorDistribution == "1/x":
+                    distributionSection = '\t\t<OneOnX id="OneOnX.' + taxon + '" name="distr" offset="' + \
+                                          str(args.parametero) + '"/>\n'
 
             # Create remainder of the prior distribution id body and insert the distributionSection
             newLine += '\t    <distribution id="tip.' + taxon + '.prior" ' \
