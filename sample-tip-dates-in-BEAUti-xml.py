@@ -1,13 +1,11 @@
 #! /usr/bin/env python
 
 '''
-Author: Pieter Moris 27/06/2016
-
-This script takes a .BEAUti .xml file as input and adds prior distribution id's, 
+This script takes a BEAUti .xml file as input and adds prior distribution id's, 
 sample operators and logger entries for each of the samples/taxa in the tree.
 
 The input xml file should be generated in the following manner:
-    - Import the alignment in .BEAUti
+    - Import the alignment in BEAUti
     - Load in tip dates -> set time since before the present or time since the past
     - Set site/clock model, priors and MCMC options. 
     - Do not manually create any priors for the tip dates! 
@@ -19,20 +17,16 @@ By default the output is saved to "updated-beauti.xml" in the current working di
 A list of sequence id's for which to add tip priors can be provided as an input argument.
 This should be a text file with each line containing the sequence id as specified in the alignment.
 
-Help: python.BEAUti-xml-sample-from-tip-dates.py -h
+Help: python sample-tip-dates-in-BEAUti-xml.py -h
 
-Usage: python.BEAUti-xml-sample-from-tip-dates.py. BEAUti.xml
+Usage: python sample-tip-dates-in-BEAUti-xml.py <BEAUti .xml> -<optional arguments>
 
 POSSIBLE IMPROVEMENTS:
     - Add option to disable logger section.
-    - check if dates are provided as time in past
-     <trait id="dateTrait.t:renamed-SNP-L4" spec="beast.evolution.tree.TraitSet" traitname="date-forward">
-                 <trait id="dateTrait.t:renamed-SNP-L4" spec="beast.evolution.tree.TraitSet" traitname="date-backward"> this is what we need
-    - add option for estimating prior distribution parameters
-    - change beastDistributionsDict[args.priorDistribution] to stored variable name
-    - remove argparse writer, manually open file and change default name path?
-    - fix output names!
     - automatically retrieve correct direction of time from file?
+    - add option for estimating prior distribution parameters
+    - remove argparse writer, manually open file and change default name path?
+    - fix output names
     - Clean up 1/x and uniform section so that parameter values are also gathered from
       the parameter dictionary?
 '''
@@ -46,18 +40,18 @@ parser = argparse.ArgumentParser(description="Script to add tip date prior "
 parser.add_argument("inputFile", type=str, help="The path or name "
     # https://stackoverflow.com/questions/18862836/how-to-open-file-using-argparse
     # type=argparse.FileType('r'),
-                    "(if located in working directory) of the input.BEAUti .xml file.",
+                    "(if located in working directory) of the input BEAUti .xml file.",
                     metavar="inputFile")
 parser.add_argument("-o", "--output", type=argparse.FileType('w'), dest="outFile", 
                     default='updated-beati.xml',
-                    help="Specifies the name or path of the updated.BEAUti .xml file.",
+                    help="Specifies the name or path of the updated BEAUti .xml file.",
                     metavar='')
 parser.add_argument("-s", "--sequences", type=str, dest="sequences", 
                     default='',
                     help="A file that specifies the sequences to which "
                     "date priors should be assigned. Each line should "
                     "contain exactly one sequence id (default = all dated "
-                    "sequences found in the .BEAUti .xml file).",
+                    "sequences found in the BEAUti .xml file).",
                     # metavar="Sequences to assign date priors to")
                     metavar='')
 parser.add_argument("-d", "--priorDist", type=str.lower, dest="priorDistribution",
@@ -188,7 +182,7 @@ try:
         dateSection = re.search(r'traitname="date-forward">\s*([\w=.\-\s,]*)<',xmlContents).group(1)
 except AttributeError:
     print("ERROR!\nCould not find any dated sequences in BEAUti .xml file.\n"
-          "Please check if.BEAUti .xml file was generated correctly.\n"
+          "Please check if BEAUti .xml file was generated correctly.\n"
           "Possible causes:\n - Tip dates were not added in BEAUti.\n"
           " - Dates were specified as \"before the present\" or \"since some time in the past\" "
           "in the .XML file, but a different direction argument was provided as an input argument to the script.")
@@ -308,7 +302,8 @@ for i, line in enumerate(xmlContentsList):
         # the top of the <distribution id="prior" spec="util.CompoundDistribution">' section
         line = line + "\n" + newLine
 
-    # Add loggers for tip priors at the top of the logger section
+    # DISABLED: Add loggers for tip priors at the top of the logger section
+    # Don't add them  before </logger> because screenlog has the same end section!
     elif '<logger id="tracelog"' in line:
         '''
         for taxon in taxonList:
@@ -331,22 +326,14 @@ for i, line in enumerate(xmlContentsList):
     # write edited or original line to the new file
     args.outFile.write(line+"\n")
 
-'''
-add option for estimating dist parameters!
-
-fix formatting with tabs
-
-add loggers  before </logger>? no because screenlog has same name!
-'''
-
 # Set progess bar to done.
 # sys.stdout.write('\r{0:.2%} done.'.format(1))
 
-# Print name and location of new.BEAUti .xml file.
-print('\nUpdated .BEAUti .xml file was saved to',
+# Print name and location of new BEAUti .xml file.
+print('\nUpdated BEAUti .xml file was saved to',
      os.path.normcase(os.getcwd() + "/updated-" + args.outFile.name))
 
-#print('\nUpdated .BEAUti .xml file was saved to',
+#print('\nUpdated BEAUti .xml file was saved to',
 #      os.path.normcase(os.getcwd() + "/SampledTips-" + os.path.basename(path)))
 
 sys.exit()
