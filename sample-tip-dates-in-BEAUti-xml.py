@@ -36,7 +36,7 @@ import sys, os, re, time, argparse
 
 # Check provided arguments
 parser = argparse.ArgumentParser(description="Script to add tip date prior "
-                                             "sampling to beati .xml files.")
+                                             "sampling to BEAUti .xml files.")
 parser.add_argument("inputFile", type=str, help="The path or name "
     # https://stackoverflow.com/questions/18862836/how-to-open-file-using-argparse
     # type=argparse.FileType('r'),
