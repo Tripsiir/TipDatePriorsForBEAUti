@@ -305,11 +305,11 @@ for i, line in enumerate(xmlContentsList):
     # DISABLED: Add loggers for tip priors at the top of the logger section
     # Don't add them  before </logger> because screenlog has the same end section!
     elif '<logger id="tracelog"' in line:
-        '''
         for taxon in taxonList:
-            newLine += '\t<log idref="@tip.' + taxon + '.prior"/>\n'
+	# NOTE: Manually created BEAUti template omits @ infront of id name,
+	# but BEAST 2 blog entry did include it?
+            newLine += '\t<log idref="tip.' + taxon + '.prior"/>\n'
         line = line + "\n" + newLine
-        '''
 
     # Add sample operator for tip priors at the end of the file
     elif '</run>' in line:
