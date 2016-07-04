@@ -294,9 +294,11 @@ for i, line in enumerate(xmlContentsList):
 
     # Add loggers for tip priors at the top of the logger section
     elif '<logger id="tracelog"' in line:
+        '''
         for taxon in taxonList:
             newLine += '\t<log idref="@tip.' + taxon + '.prior"/>\n'
         line = line + "\n" + newLine
+        '''
 
     # Add sample operator for tip priors at the end of the file
     elif '</run>' in line:
