@@ -3,41 +3,35 @@
 '''
 Author: Pieter Moris 27/06/2016
 
-This script takes a.BEAUti .xml file as input and adds
-prior distribution id's, sample operators and logger entries 
-for each of the samples/taxa in the tree.
+This script takes a .BEAUti .xml file as input and adds prior distribution id's, 
+sample operators and logger entries for each of the samples/taxa in the tree.
+
 The input xml file should be generated in the following manner:
-    - Import the alignment
-    - Use tip dates -> since before the present -> guess from file lsd_input_dates.txt
-        file can be created using the lsdDataInputFromSeqs.py
+    - Import the alignment in .BEAUti
+    - Load in tip dates -> set time since before the present or time since the past
     - Set site/clock model, priors and MCMC options. 
+    - Do not manually create any priors for the tip dates! 
     - Make sure that any other taxon sets do not follow the naming convention 
       that is used by this script: "tip.taxonid".
 
-The output is saved in the working directory as update.BEAUti.xml.
+By default the output is saved to "updated-beauti.xml" in the current working directory.
 
-describe input seq list format
+A list of sequence id's for which to add tip priors can be provided as an input argument.
+This should be a text file with each line containing the sequence id as specified in the alignment.
+
+Help: python.BEAUti-xml-sample-from-tip-dates.py -h
+
+Usage: python.BEAUti-xml-sample-from-tip-dates.py. BEAUti.xml
 
 POSSIBLE IMPROVEMENTS:
-    - Retrieve the sample id's from the lsd-input-dates.txt file instead of the xml file directly.
-      This would prevent entries being created for sequences that don't have a known date.
-        + check if all provides id's are actually in the xml file.
-        OR extract from    <trait id="dateTrait.t:renamed-SNP-L4" spec="beast.evolution.tree.TraitSet" traitname="date"> section?
-    - Instead of opening the .xml file three times, extract all the required information in one go.
-    - Error catching: what if .xml file is not complete? E.g. missing the prior or logger sections?
     - Add option to disable logger section.
     - check if dates are provided as time in past
      <trait id="dateTrait.t:renamed-SNP-L4" spec="beast.evolution.tree.TraitSet" traitname="date-forward">
                  <trait id="dateTrait.t:renamed-SNP-L4" spec="beast.evolution.tree.TraitSet" traitname="date-backward"> this is what we need
-    - add optional prior distribution option
-
+    - add option for estimating prior distribution parameters
     - change beastDistributionsDict[args.priorDistribution] to stored variable name
-
     - remove argparse writer, manually open file and change default name path?
-
-Help: python.BEAUti-xml-sample-from-tip-dates.py -h
-
-Usage: python.BEAUti-xml-sample-from-tip-dates.py.BEAUti.xml
+    - fix output names!
 '''
 
 from __future__ import print_function, division, with_statement
@@ -96,7 +90,13 @@ parser.add_argument("-r", "--realspace", dest="meanInRealSpace",
                     action="store_true",
                     help="If flag is provided, the mean of the log normal "
                     "distribution is treated as being in real space, "
-                    "rather than log-transformed space")
+                    "rather than log-transformed space. ")
+parser.add_argument("-t", "--time", type=str, dest="timeDirection",
+                    default="present",
+                    choices=["present","past"],
+                    help="Specifies whether dates are interpreted as 'time before the present' "
+                    "or 'time since the past'.",
+                    metavar='')
 parser.add_argument("-e", "--estimate", dest="estimateParameters",
                     action="store_true",
                     help="If flag is provided, all the parameters of the "
@@ -178,12 +178,16 @@ except AttributeError:
 
 # Find section containing dated sequences
 try:
-    dateSection = re.search(r'traitname="date-backward">\s*([\w=.\-\s,]*)<',xmlContents).group(1)
+    if args.timeDirection == 'present':
+        dateSection = re.search(r'traitname="date-backward">\s*([\w=.\-\s,]*)<',xmlContents).group(1)
+    else:
+        dateSection = re.search(r'traitname="date-forward">\s*([\w=.\-\s,]*)<',xmlContents).group(1)
 except AttributeError:
     print("ERROR!\nCould not find any dated sequences in BEAUti .xml file.\n"
           "Please check if.BEAUti .xml file was generated correctly.\n"
           "Possible causes:\n - Tip dates were not added in BEAUti.\n"
-          " - Dates were not specified as \"before the present\" ")
+          " - Dates were specified as \"before the present\" or \"since some time in the past\" "
+          "in the .XML file, but a different direction argument was provided as an input argument to the script.")
     sys.exit()
 
 # Extract sequence id's from this section
@@ -221,8 +225,12 @@ if args.priorDistribution == 'log-normal':
         print("\t - Mean is specified in real space.")
     else:
         print("\t - Mean is specified in log-transformed space.")
+if args.timeDirection == "present":
+    print("\nTip dates are interpreted as time before the present.")
+else:
+    print("\nTip dates are interpreted as since some time in the past.")
 print("\nInput BEAti .xml file:",path)
-print("Output BEAti .xml file:",os.path.normcase(os.getcwd() + '/' + args.outFile.name))
+print("\nOutput BEAti .xml file:",os.path.normcase(os.getcwd() + '/' + args.outFile.name))
 print("\nThe input BEAUti .xml file seems to be in order...\n")
 if args.sequences:
     print("Adding prior distributions, sample operators and logger entries for the tip dates",
@@ -316,7 +324,10 @@ add loggers  before </logger>? no because screenlog has same name!
 # sys.stdout.write('\r{0:.2%} done.'.format(1))
 
 # Print name and location of new.BEAUti .xml file.
-print('\nUpdated.BEAUti .xml file was saved to',
-      os.path.normcase(os.getcwd() + "/SampledTips-" + os.path.basename(path)))
+print('\nUpdated .BEAUti .xml file was saved to',
+     os.path.normcase(os.getcwd() + "/updated-" + args.outFile.name))
+
+#print('\nUpdated .BEAUti .xml file was saved to',
+#      os.path.normcase(os.getcwd() + "/SampledTips-" + os.path.basename(path)))
 
 sys.exit()
