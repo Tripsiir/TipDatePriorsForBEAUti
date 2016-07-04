@@ -32,6 +32,7 @@ POSSIBLE IMPROVEMENTS:
     - change beastDistributionsDict[args.priorDistribution] to stored variable name
     - remove argparse writer, manually open file and change default name path?
     - fix output names!
+    - automatically retrieve correct direction of time from file?
 '''
 
 from __future__ import print_function, division, with_statement
@@ -280,10 +281,10 @@ for i, line in enumerate(xmlContentsList):
                                       'offset="1.0">\n' + parameterLines + '\t\t</distr>\n'
 
             # Create remainder of the prior distribution id body and insert the distributionSection
-            newLine += '\t    <distribution id="tip.' + taxon + '.prior"' \
+            newLine += '\t    <distribution id="tip.' + taxon + '.prior" ' \
                        'spec="beast.math.distributions.MRCAPrior" ' \
                        'tipsonly="true" tree="@' + treeID + '">\n' \
-                       '\t\t<taxonset id=" tip.' + taxon + '" spec="TaxonSet">\n' \
+                       '\t\t<taxonset id="tip.' + taxon + '" spec="TaxonSet">\n' \
                        '\t\t    <taxon id="' + taxon + '" spec="Taxon"/>\n\t\t</taxonset>\n' + \
                        distributionSection + '\t    </distribution>\n'
 
