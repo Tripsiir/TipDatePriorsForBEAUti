@@ -50,8 +50,8 @@ parser.add_argument("-s", "--sequences", type=str, dest="sequences",
                     default='',
                     help="A file that specifies the sequences to which "
                     "date priors should be assigned. Each line should "
-                    "contain exactly one sequence id (default = all dated "
-                    "sequences found in the BEAUti .xml file).",
+                    "contain exactly one sequence id. If omitted, all dated "
+                    "sequences found in the BEAUti .xml file will be used).",
                     # metavar="Sequences to assign date priors to")
                     metavar='')
 parser.add_argument("-d", "--priorDist", type=str.lower, dest="priorDistribution",
@@ -92,7 +92,7 @@ parser.add_argument("-t", "--time", type=str, dest="timeDirection",
                     default="present",
                     choices=["present","past"],
                     help="Specifies whether dates are interpreted as 'time before the present' "
-                    "or 'time since the past'.",
+                    "or 'time since the past'. Options are 'present' and 'past'.",
                     metavar='')
 parser.add_argument("-e", "--estimate", dest="estimateParameters",
                     action="store_true",
